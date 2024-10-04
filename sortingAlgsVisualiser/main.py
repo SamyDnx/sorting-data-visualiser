@@ -10,6 +10,8 @@ CELL_SIZE = 7
 GAP_SIZE = 1
 WHITE = pygame.Color(255, 255, 255)
 GREEN = pygame.Color(0, 255, 0)
+RED = pygame.Color(255, 0, 0)
+BLUE = pygame.Color(0, 0, 255)
 BLACK = pygame.Color(0, 0, 0)
 
 #pygame.time.Clock()
@@ -27,7 +29,7 @@ def draw_data_set(array):
     length = len(array)
     for i in range(length):
         data_rect = pygame.Rect((CELL_SIZE*(i+1), 0, CELL_SIZE, CELL_SIZE*array[i]))
-        pygame.draw.rect(window, GREEN, data_rect)
+        pygame.draw.rect(window, WHITE, data_rect)
         pygame.display.flip()
 
 def draw_bubble_sort(array):
@@ -43,27 +45,45 @@ def draw_bubble_sort(array):
             if array[j] > array[j+1]:
                 array[j], array[j+1] = array[j+1], array[j]
 
-                rect1 = pygame.Rect(CELL_SIZE*(j+1), 0, CELL_SIZE, HEIGHT)
-                rect2 = pygame.Rect(CELL_SIZE*(j+2), 0, CELL_SIZE, HEIGHT)
+            rect1 = pygame.Rect(CELL_SIZE*(j+1), 0, CELL_SIZE, HEIGHT)
+            rect2 = pygame.Rect(CELL_SIZE*(j+2), 0, CELL_SIZE, HEIGHT)
 
-                window.fill(BLACK, rect1)
-                window.fill(BLACK, rect2)
+            window.fill(BLACK, rect1)
+            window.fill(BLACK, rect2)
 
-                pygame.display.flip()
+            pygame.display.flip()
 
-                n_rect1 = pygame.Rect(CELL_SIZE*(j+1), 0, CELL_SIZE, CELL_SIZE*array[j])
-                n_rect2 = pygame.Rect(CELL_SIZE*(j+2), 0, CELL_SIZE, CELL_SIZE*array[j+1])
+            n_rect1 = pygame.Rect(CELL_SIZE*(j+1), 0, CELL_SIZE, (CELL_SIZE*array[j]))
+            n_rect2 = pygame.Rect(CELL_SIZE*(j+2), 0, CELL_SIZE, (CELL_SIZE*array[j+1]))
 
-                pygame.draw.rect(window, GREEN, n_rect1)
-                pygame.draw.rect(window, GREEN, n_rect2)
+            pygame.draw.rect(window, WHITE, n_rect1)
+            pygame.draw.rect(window, WHITE, n_rect2)
 
-                pygame.display.flip()
+            pygame.display.flip()
 
-            pygame.time.delay(10)
+            pygame.time.delay(1)
 
-        window.fill(WHITE, pygame.Rect(CELL_SIZE*(n-i-1), 0, CELL_SIZE, CELL_SIZE*max(array[:-1-i])))
+        # TO FIX
+        window.fill(GREEN, pygame.Rect(CELL_SIZE*(n-i), 0, CELL_SIZE, (CELL_SIZE*array[n-1-i])))
         pygame.display.flip()
         pygame.time.delay(1)
+
+
+def ending_animation(array, color):
+    n = len(array)
+
+    for i in range(n):
+        # 100% useless, it's just to keep the os responsive
+        for ev in pygame.event.get():
+            if ev.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        rect = pygame.Rect((CELL_SIZE*(i+1), 0, CELL_SIZE, CELL_SIZE*array[i]))
+        pygame.draw.rect(window, color, rect)
+        pygame.display.flip()
+        pygame.time.delay(25)
+
 
 def show_sorting_data(array, sort="bubble"):
     match sort:
@@ -79,9 +99,10 @@ while run:
             pygame.quit()
 
     if not generated:
-        arr = generate_random_array(100)
+        arr = generate_random_array(150)
         draw_data_set(arr)
         generated = True
 
-        time.sleep(2)
-        show_sorting_data(arr)
+        time.sleep(1)
+        show_sorting_data(arr, "bubble")
+        ending_animation(arr, BLUE)
