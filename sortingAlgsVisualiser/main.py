@@ -14,16 +14,24 @@ RED = pygame.Color(255, 0, 0)
 BLUE = pygame.Color(0, 0, 255)
 BLACK = pygame.Color(0, 0, 0)
 
-#pygame.time.Clock()
-
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Data Sorting Algorithms Visualiser")
+
 
 def generate_random_array(length=ARRAY_LENGTH):
     array = [0 for _ in range(length)]
     for i in range(length):
         array[i] += random.randint(1, 100)
     return array
+
+def generate_sorted_array():
+    array = generate_random_array()
+    array.sort()
+    return array
+
+def generate_reversed_array():
+    array = generate_sorted_array()
+    return array[::-1]
 
 def draw_data_set(array, color=WHITE):
     length = len(array)
@@ -157,6 +165,18 @@ while run:
                 window.fill(BLACK)
                 pygame.display.flip()
                 arr = generate_random_array(ARRAY_LENGTH)
+                draw_data_set(arr)
+            
+            elif event.key == pygame.K_RETURN:
+                window.fill(BLACK)
+                pygame.display.flip()
+                arr = generate_sorted_array()
+                draw_data_set(arr)
+
+            elif event.key == pygame.K_BACKSPACE:
+                window.fill(BLACK)
+                pygame.display.flip()
+                arr = generate_reversed_array()
                 draw_data_set(arr)
             
             elif event.key == pygame.K_b:
