@@ -24,5 +24,5 @@ This project is a Python-based visualizer for data sorting algorithms using the 
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/sorting-algorithms-visualizer.git
+   git clone https://github.com/SamyDnx/sorting-algorithms-visualizer.git
    cd sorting-algorithms-visualizer
